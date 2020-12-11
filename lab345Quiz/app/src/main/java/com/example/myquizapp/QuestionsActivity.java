@@ -68,13 +68,6 @@ public class QuestionsActivity extends AppCompatActivity implements View.OnClick
     private void getQuestionList() {
         questionList = new ArrayList<>();
 
-      /*  questionList.add(new Question("Qustion 1", "A", "B", "C", "D", 2));
-        questionList.add(new Question("Qustion 2", "B", "C", "D", "A", 2));
-        questionList.add(new Question("Qustion 3", "C", "B", "A", "D", 2));
-        questionList.add(new Question("Qustion 4", "A", "D", "C", "B", 2));
-        questionList.add(new Question("Qustion 5", "C", "D", "A", "B", 2));
-        */
-
         firestore.collection("QUIZ").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -205,6 +198,7 @@ public class QuestionsActivity extends AppCompatActivity implements View.OnClick
         } else {
             Intent intent = new Intent(QuestionsActivity.this, ScoreActivity.class);
             intent.putExtra("SCORE", String.valueOf(score) + "/" + String.valueOf(questionList.size()));
+            intent.putExtra("SCOREINT", String.valueOf(score) );
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             //QuestionsActivity.this.finish();

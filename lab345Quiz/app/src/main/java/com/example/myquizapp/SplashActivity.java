@@ -10,6 +10,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.firebase.auth.FirebaseAuth;
+
 import static java.lang.Thread.sleep;
 
 public class SplashActivity extends AppCompatActivity {
@@ -21,8 +26,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        appName = findViewById(R.id.appName);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
 
+            }
+        });
+
+        appName = findViewById(R.id.appName);
         Typeface typeface = ResourcesCompat.getFont(this, R.font.blacklist);
         appName.setTypeface(typeface);
 
@@ -37,10 +48,11 @@ public class SplashActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                Intent intent = new Intent(SplashActivity.this, mAuth.getCurrentUser()==null?AuthActivity.class:MenuActivity.class);
                 startActivity(intent);
             }
         }).start();
+
     }
 }
